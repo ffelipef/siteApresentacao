@@ -99,7 +99,7 @@
                     <div class="container">
                         <div class="box">
                             <h3>Objetivo do Floyd-Warshall</h3>
-                            <p>Este algoritmo calcula o caminho mais curto entre todos os pares de vértices em um grafo. Ou seja, ele encontra a melhor rota de qualquer ponto de partida para qualquer ponto de chegada.</p>
+                            <p>Este algoritmo calcula o caminho mais curto entre todos os pares de vértices em um grafo. Ou seja, ele encontra a melhor rota em distância de qualquer ponto de partida para qualquer ponto de chegada.</p>
                         </div>
                         <div class="box">
                             <h3>Por que não Dijkstra?</h3>
@@ -116,9 +116,9 @@
                     <h2 class="titulo">ESTRUTURA DE DADOS E FERRAMENTAS</h2>
                     <div class="slide-content-flex">
                         <div class="left">
-                            <h3 class="subtitulo">Matriz de Adjacência</h3>
+                            <h3 class="subtitulo">Lista de Adjacência</h3>
                             <div class="conteudo">
-                                A escolha da Matriz de Adjacência foi estratégica para o Floyd-Warshall. Este algoritmo opera eficientemente sobre uma estrutura matricial, iterando através dela para determinar todas as distâncias mínimas.
+                                <p>A escolha da Lista de Adjacência foi estratégica para o Floyd-Warshall. Este algoritmo opera eficientemente sobre uma estrutura, iterando através dela para determinar apenas as distâncias mínimas mais importantes. Dessa forma o algoritmo consegue ficar mais leve.</p>
                             </div>
                             <h3 class="subtitulo">Ferramentas Utilizadas</h3>
                             <div class="conteudo">
@@ -152,8 +152,9 @@
                             <p>Utilizamos `graph = ox.graph_from_point(...)` para baixar dados de Belém e construir o grafo inicial, definindo uma área de interesse.</p>
                         </div>
                         <div class="box">
-                            <h3>2. Construção da Matriz</h3>
-                            <p>Um laço `for u, v, data in graph.edges(data=True):` itera sobre cada aresta, preenchendo a `dist_matrix` com as distâncias iniciais.</p>
+                            <h3>2. Construção do Grafo</h3>
+                            <p><strong>Colab (matriz):</strong> Um laço "for u, v, data in graph.edges(data=True):" itera sobre cada aresta, preenchendo a "dist_matrix" com as distâncias iniciais.</p>
+                            <p><strong>Web (lista):</strong> Usamos a biblioteca NetworkX para definir o grafo e o ponto de origem e destino, após isso seguimos a mesma lógica que o código do Colab.</p>
                         </div>
                         <div class="box">
                             <h3>3. Execução do Algoritmo</h3>
@@ -168,7 +169,7 @@
                         <div class="left">
                             <h3>Resultados no Google Colab</h3>
                             <div class="conteudo">
-                                <p>No Google Colab, escolhemos uma área da Alcindo Cacela e coordenadas de início e fim. O algoritmo retornou a melhor rota, exibindo uma imagem do caminho.</p>
+                                <p>No Google Colab, escolhemos uma área da Alcindo Cacela e coordenadas de início e fim. O algoritmo retornou a rota mais curta, exibindo uma imagem do caminho.</p>
                                 <div class="img-mapa">
                                     <a href="img/grafoColab.png" class="link-imagem" data-sub-html="<h4>Exemplo de Rota no Google Colab</h4><p>Caminho mais curto encontrado pelo algoritmo na região da Alcindo Cacela.</p>">
                                         <img src="img/grafoColab.png" alt="Output do Colab" class="imagem-clicavel">
@@ -179,7 +180,7 @@
                         <div class="right">
                             <h3>Resultados com mapa interativo</h3>
                             <div class="conteudo">
-                                <p>Na aplicação web, o usuário pode escolher os pontos de início e fim em um mapa interativo, e o algoritmo exibe o caminho mais curto visualmente.</p>
+                                <p>Na aplicação web, o usuário pode escolher os pontos de início e fim no mapa interativo, e o algoritmo exibe o caminho mais curto visualmente.</p>
                                 <div class="img-mapa">
                                     <a href="img/telaMapa2.png" class="link-imagem" data-sub-html="<h4>Mapa Interativo com Rota Calculada</h4><p>Interface onde o usuário pode selecionar pontos e visualizar a rota.</p>">
                                         <img src="img/telaMapa2.png" alt="Output do Mapa Interativo" class="imagem-clicavel">
@@ -203,7 +204,7 @@
                             <h3>Limitações e Futuro</h3>
                             <div class="conteudo">
                                 <ul>
-                                    <li><strong>Complexidade Temporal:</strong> A complexidade de $O(V^3)$ limita a escalabilidade para cidades inteiras.</li>
+                                    <li><strong>Complexidade Temporal:</strong> A complexidade de O(V^3) limita a escalabilidade para cidades inteiras.</li>
                                     <li><strong>Modelo Estático:</strong> O modelo não considera dados dinâmicos como tráfego em tempo real.</li>
                                     <li><strong>Custo de Memória:</strong> A matriz de adjacência consome muita memória para grafos grandes.</li>
                                 </ul>
