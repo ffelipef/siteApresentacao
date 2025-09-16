@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/css/lightgallery.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/css/lg-zoom.min.css" />
+
+    <title>Floyd-Warshall na Alcindo Cacela</title>
+</head>
+<body>
+    <header class="topo">
+        <h1>Floyd-Warshall na Alcindo Cacela</h1>
+        <nav>
+            <ul>
+                <li><a href="#apresentar">APRESENTAR</a></li>
+                <li><a href="https://calculadora-floyd-warshall-belem.onrender.com">MAPA</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="apresentar">
+            <div class="slideshow-container" >
+
+                <button id="fullscreen-btn" class="fullscreen-button" title="Ver em tela cheia">⛶</button>
+
+                <div class="slide fade">
+                    <div class="inicio">
+                        <h1>Implementação do algoritmo de Floyd-Warshall na Alcindo Cacela</h1>
+                        <p id="creditos">Feito por Benjamin Suzuki e Felipe de Freitas.</p>
+                    </div>
+                </div>
+
+                <div class="slide fade">
+                    <h2 class="titulo">PROBLEMA E MOTIVAÇÃO: MODELANDO O MUNDO REAL</h2>
+                    <div class="slide-content-flex">
+                        <div class="left">
+                            <div class="conteudo">
+                                <p>Nosso desafio foi encontrar o caminho mais curto entre 
+                                quaisquer dois pontos em Belém do Pará. Essa é uma 
+                                necessidade fundamental para sistemas de navegação 
+                                por GPS, otimização de rotas para entregas e planejamento
+                                logístico.</p>
+                            </div>
+                            <h3 class="subtitulo">O que é um grafo?</h3>
+                            <div class="conteudo">
+                                <p>Um grafo é uma estrutura matemática composta por 
+                                vértices (ou nós) e arestas (ou ligações) que conectam 
+                                esses vértices. Em termos simples, um grafo pode ser 
+                                visualizado como um conjunto de pontos (vértices) 
+                                interligados por linhas (arestas).</p>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <h3>Modelagem do Mapa Urbano como Grafo</h3>
+                            <ul>
+                                <li><strong>Vértices (Nós):</strong> Cada cruzamento ou ponto de interesse no mapa de Belém foi representado como um vértice.</li>
+                                <li><strong>Arestas (Vias):</strong> As ruas foram modeladas como arestas, conectando os respectivos cruzamentos.</li>
+                                <li><strong>Pesos (Distâncias):</strong> O "custo" de percorrer cada aresta foi definido pela distância em metros da rua, utilizando dados precisos do OSMnx.</li>
+                            </ul>
+                            <div class="img-mapa">
+                                <a href="/img/grafoColab.png" class="link-imagem" data-sub-html="<h4>Mapa do Grafo da Alcindo Cacela</h4><p>Visualização da área de Belém modelada como um grafo.</p>">
+                                    <img src="/img/grafoColab.png" alt="Imagem do mapa como grafo" class="imagem-clicavel">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide fade">
+                    <h2 class="titulo">CONCEITOS DE GRAFOS NA PRÁTICA: NAVEGANDO EM BELÉM</h2>
+                    <div class="description">
+                        <p>Para modelar as complexidades do trânsito urbano de Belém, aplicamos conceitos essenciais da Teoria dos Grafos:</p>
+                    </div>
+                    <div class="container">
+                        <div class="box">
+                            <h3>Dígrafos (Grafo Direcionado)</h3>
+                            <p>Nosso mapa é um dígrafo, pois ruas de mão única significam que a direção da viagem importa. Uma aresta de A para B não implica uma aresta de B para A, refletindo a realidade do tráfego urbano.</p>
+                        </div>
+                        <div class="box">
+                            <h3>Conectividade</h3>
+                            <p>Para que um caminho exista entre dois pontos, eles devem estar conectados. Um fechamento de rua, por exemplo, altera a conectividade do grafo, podendo isolar partes do mapa e exigir novas rotas.</p>
+                        </div>
+                        <div class="box">
+                            <h3>Caminho e Circuito</h3>
+                            <p>Um caminho é uma sequência de ruas do ponto A ao ponto B. Um circuito seria uma rota que começa e termina no mesmo local, útil para patrulhas ou entregas circulares. Entender essas estruturas é crucial para otimizar rotas.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide fade">
+                    <h2 class="titulo">A ESCOLHA DO ALGORITMO DE FLOYD-WARSHALL</h2>
+                    <div class="description">
+                        <p>O algoritmo de Floyd-Warshall foi o mais adequado para realizar o mapeamento urbano e calcular os menores caminhos entre dois pontos dentro da área da Alcindo Cacela.</p>
+                    </div>
+                    <div class="container">
+                        <div class="box">
+                            <h3>Objetivo do Floyd-Warshall</h3>
+                            <p>Este algoritmo calcula o caminho mais curto entre todos os pares de vértices em um grafo. Ou seja, ele encontra a melhor rota de qualquer ponto de partida para qualquer ponto de chegada.</p>
+                        </div>
+                        <div class="box">
+                            <h3>Por que não Dijkstra?</h3>
+                            <p>Dijkstra é excelente para encontrar o caminho mais curto a partir de uma única origem para todos os outros destinos. Perfeito para um aplicativo de GPS que calcula a rota do seu local atual.</p>
+                        </div>
+                        <div class="box">
+                            <h3>A Vantagem do Floyd-Warshall</h3>
+                            <p>Floyd-Warshall brilha em cenários onde precisamos pré-calcular todas as rotas possíveis. Para um painel de controle logístico ou um sistema que requer consulta rápida de rotas entre inúmeros pontos, o custo inicial de pré-cálculo compensa, oferecendo flexibilidade e agilidade.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide fade">
+                    <h2 class="titulo">ESTRUTURA DE DADOS E FERRAMENTAS</h2>
+                    <div class="slide-content-flex">
+                        <div class="left">
+                            <h3 class="subtitulo">Matriz de Adjacência</h3>
+                            <div class="conteudo">
+                                A escolha da Matriz de Adjacência foi estratégica para o Floyd-Warshall. Este algoritmo opera eficientemente sobre uma estrutura matricial, iterando através dela para determinar todas as distâncias mínimas.
+                            </div>
+                            <h3 class="subtitulo">Ferramentas Utilizadas</h3>
+                            <div class="conteudo">
+                                <ul>
+                                    <li><strong>OSMnx:</strong> Uma poderosa biblioteca Python que nos permitiu extrair dados geográficos detalhados (ruas, cruzamentos) do OpenStreetMap e convertê-los em grafos.</li>
+                                    <li><strong>NetworkX:</strong> Essencial para a manipulação e análise do grafo obtido. O OSMnx se integra perfeitamente ao NetworkX.</li>
+                                    <li><strong>NumPy:</strong> Fundamental para a criação e manipulação eficiente da matriz de distâncias, garantindo performance no cálculo do algoritmo.</li>
+                                    <li><strong>Flask & Scikit-learn:</strong> Utilizados para construir a aplicação web interativa e processar os dados.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div class="img-mapa">
+                                <a href="img/telaMapa.png" class="link-imagem" data-sub-html="<h4>Ilustração das Ferramentas Utilizadas</h4><p>Representação visual das principais bibliotecas e frameworks.</p>">
+                                    <img src="img/telaMapa.png" alt="Ferramentas" class="imagem-clicavel">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide fade">
+                    <h2 class="titulo">PASSO A PASSO DO CÓDIGO: CONSTRUINDO O GRAFO E AS ROTAS</h2>
+                    <div class="description">
+                        <p>Nosso código foi estruturado para modelar Belém e aplicar o algoritmo de Floyd-Warshall de forma eficiente.</p>
+                    </div>
+                    <div class="container">
+                        <div class="box">
+                            <h3>1. Obtenção do Grafo</h3>
+                            <p>Utilizamos `graph = ox.graph_from_point(...)` para baixar dados de Belém e construir o grafo inicial, definindo uma área de interesse.</p>
+                        </div>
+                        <div class="box">
+                            <h3>2. Construção da Matriz</h3>
+                            <p>Um laço `for u, v, data in graph.edges(data=True):` itera sobre cada aresta, preenchendo a `dist_matrix` com as distâncias iniciais.</p>
+                        </div>
+                        <div class="box">
+                            <h3>3. Execução do Algoritmo</h3>
+                            <p>A chamada `floyd_warshall(dist_matrix.copy())` executa o coração do algoritmo. Em seguida, `reconstruir_caminho()` monta as rotas.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide fade">
+                    <h2 class="titulo">DEMONSTRAÇÃO E RESULTADOS: A ROTA EM BELÉM</h2>
+                    <div class="slide-content-flex">
+                        <div class="left">
+                            <h3>Resultados no Google Colab</h3>
+                            <div class="conteudo">
+                                <p>No Google Colab, escolhemos uma área da Alcindo Cacela e coordenadas de início e fim. O algoritmo retornou a melhor rota, exibindo uma imagem do caminho.</p>
+                                <div class="img-mapa">
+                                    <a href="/img/grafoColab.png" class="link-imagem" data-sub-html="<h4>Exemplo de Rota no Google Colab</h4><p>Caminho mais curto encontrado pelo algoritmo na região da Alcindo Cacela.</p>">
+                                        <img src="/img/grafoColab.png" alt="Output do Colab" class="imagem-clicavel">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <h3>Resultados com mapa interativo</h3>
+                            <div class="conteudo">
+                                <p>Na aplicação web, o usuário pode escolher os pontos de início e fim em um mapa interativo, e o algoritmo exibe o caminho mais curto visualmente.</p>
+                                <div class="img-mapa">
+                                    <a href="/img/telaMapa.png" class="link-imagem" data-sub-html="<h4>Mapa Interativo com Rota Calculada</h4><p>Interface onde o usuário pode selecionar pontos e visualizar a rota.</p>">
+                                        <img src="/img/telaMapa.png" alt="Output do Mapa Interativo" class="imagem-clicavel">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide fade">
+                    <h2 class="titulo">CONCLUSÃO</h2>
+                    <div class="slide-content-flex">
+                        <div class="left">
+                            <h3>Recaptulando</h3>
+                            <div class="conteudo">
+                                <p>Modelamos um problema real de navegação em Belém com Teoria dos Grafos. Implementamos o Floyd-Warshall e demonstramos sua aplicação prática, transformando dados de ruas em caminhos otimizados.</p>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <h3>Limitações e Futuro</h3>
+                            <div class="conteudo">
+                                <ul>
+                                    <li><strong>Complexidade Temporal:</strong> A complexidade de $O(V^3)$ limita a escalabilidade para cidades inteiras.</li>
+                                    <li><strong>Modelo Estático:</strong> O modelo não considera dados dinâmicos como tráfego em tempo real.</li>
+                                    <li><strong>Custo de Memória:</strong> A matriz de adjacência consome muita memória para grafos grandes.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a class="prev" onclick="mudarSlide(-1)">&#10094;</a>
+                <a class="next" onclick="mudarSlide(1)">&#10095;</a>
+            </div>
+            
+            <div class="dot-container">
+                <span class="dot" onclick="mostrarSlideAtual(1)"></span>
+                <span class="dot" onclick="mostrarSlideAtual(2)"></span>
+                <span class="dot" onclick="mostrarSlideAtual(3)"></span>
+                <span class="dot" onclick="mostrarSlideAtual(4)"></span>
+                <span class="dot" onclick="mostrarSlideAtual(5)"></span>
+                <span class="dot" onclick="mostrarSlideAtual(6)"></span>
+                <span class="dot" onclick="mostrarSlideAtual(7)"></span>
+                <span class="dot" onclick="mostrarSlideAtual(8)"></span>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/lightgallery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/zoom/lg-zoom.min.js"></script>
+
+    <script src="script.js"></script>
+</body>
+</html>
